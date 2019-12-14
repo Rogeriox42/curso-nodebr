@@ -85,7 +85,7 @@ usuarioPromise
 
 /* */
 /* const telefonePromise = obterTelefone()
-    .then( (result) =>{
+.then( (result) =>{
         console.log('telefone', result)
     })
     .catch( (err) =>{
