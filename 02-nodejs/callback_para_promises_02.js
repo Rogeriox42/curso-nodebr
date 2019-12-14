@@ -20,7 +20,7 @@ function obterFilme() {
 }
 
 function obterCinema() {
-    return new Promise(function resCinema(resolve, reject){
+    return new Promise(function resCinema(resolve, reject) {
         setTimeout(() => {
             return resolve({
                 nome: 'Cinemark',
@@ -39,34 +39,61 @@ function obterSessao(callback) {
     }, 2000)
 }
 
+main() 
+async function main(){
+    try{
+        console.time('medida-promise') 
+        const filme = await obterFilme() 
+        const resultado = await Promise.all([
+            obterCinema(), 
+            obterSessaoAsync() 
+        ])
+        
+        const cinema = resultado[0] 
+        const sessao = resultado[1] 
+
+        console.log(`
+        Filme: ${filme.nome}
+        Cinema: ${cinema.nome}
+        Endereço: ${cinema.endereco}
+        Sala: ${sessao.sala}
+        Valor: ${sessao.valor}
+    `)
+    console.timeEnd('medida-promise') 
+    }catch(error){
+        console.log('error', error)
+    }
+}
+
+/* 
 const filmePromise = obterFilme()
 filmePromise
     .then(function resFilme(filme) {
-        return{
+        return {
             dados: {
                 filme: filme
             }
         }
-    }).then(function resDados(resultado){
+    }).then(function resDados(resultado) {
         return obterCinema().then((result) => {
             return {
                 dados: {
-                    filme: resultado.dados.filme, 
+                    filme: resultado.dados.filme,
                     cinema: result
                 }
             }
-        }).then( (resultado) =>{
-            return obterSessaoAsync().then( (result) =>{
-                return{
+        }).then((resultado) => {
+            return obterSessaoAsync().then((result) => {
+                return {
                     dados: {
-                        filme: resultado.dados.filme, 
-                        cinema: resultado.dados.cinema, 
-                        sessao: result 
+                        filme: resultado.dados.filme,
+                        cinema: resultado.dados.cinema,
+                        sessao: result
                     }
                 }
             })
         })
-    }).then( (result) =>{
+    }).then((result) => {
         console.log(`
             Filme: ${result.dados.filme.nome}
             Cinema: ${result.dados.cinema.nome}
@@ -75,24 +102,4 @@ filmePromise
             Valor: ${result.dados.sessao.valor}
         `)
     })
-
-
-/* obterFilme(function resolveFilme(err, filme){
-    if(err){
-        console.log('ERRO AO BUSCAR FILME ', err)
-    }
-
-    obterCinema(function resolverCinema(err2, cinema){
-        if(err){
-            console.log('ERRO AO BUSCAR CINEMA ', err2)
-        }
-
-        obterSessao(function resolverSessao(err3, sessao){
-            if(err3){
-                console.log('ERRO AO BUSCAR SESSAO ', err3)
-            }
-
-            console.log(filme, cinema, sessao)
-        })
-    })
-})  */
+ */
