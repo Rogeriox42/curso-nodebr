@@ -47,6 +47,32 @@ function obterEndereco(idUsuario, callback) {
     }, 2000)
 }
 
+main()
+async function main() {
+    try {
+        console.time('medida-promise')
+        const usuario = await obterUsuario()
+        
+        const result = await Promise.all([
+            obterTelefone(usuario.id), 
+            obterEnderecoAsync(usuario.id)
+        ])
+
+        const telefone = result[0] 
+        const endereco = result[1] 
+
+        console.log(`
+            ID: ${usuario.id} - Nome: ${usuario.nome}
+            Telefone: (${telefone.ddd}) ${telefone.numero}
+            Endereço: ${endereco.rua}, Nº: ${endereco.numero}
+        `)
+        console.timeEnd('medida-promise')
+    } catch (error) {
+        console.log('ERRO', error)
+    }
+}
+
+/*
 const usuarioPromise = obterUsuario()
 usuarioPromise
     .then((usuario) => {
@@ -56,7 +82,7 @@ usuarioPromise
                     usuario: {
                         id: usuario.id,
                         nome: usuario.nome,
-                    }, 
+                    },
                     telefone: result
                 }
             }).then(function (resultado) {
@@ -72,16 +98,16 @@ usuarioPromise
     })
     .then((resultado) => {
         console.log(`
-            ID: ${resultado.usuario.id}    
+            ID: ${resultado.usuario.id}
             Nome: ${resultado.usuario.nome}
-            Telefone: (${resultado.telefone.ddd}) ${resultado.telefone.numero} 
-            Endereço: ${resultado.endereco.rua}, Nº: ${resultado.endereco.numero} 
+            Telefone: (${resultado.telefone.ddd}) ${resultado.telefone.numero}
+            Endereço: ${resultado.endereco.rua}, Nº: ${resultado.endereco.numero}
         `)
     })
     .catch((err) => {
         console.log('DEU RUIM ' + err)
     })
-
+  */
 
 /* */
 /* const telefonePromise = obterTelefone()
@@ -90,12 +116,12 @@ usuarioPromise
     })
     .catch( (err) =>{
         console.log('erro no telefone', err)
-    }) */
+    })
 
 
 
 
-// Função com Callback 
+// Função com Callback
 
 /* obterUsuario(function resUsuario(error, usuario) {
     if (error) {
