@@ -7,10 +7,12 @@ async function getPeople(name) {
     return response.data
 }
 
-getPeople('anakin')
-    .then((result) => {
-        console.log('result', result)
-    })
-    .catch((error) => {
-        console.log('error', error)
-    })
+async function getStarships(name){
+    const url = `${baseURL}/starships/?search=${name}&format=json`
+    const response = await axios.get(url)
+    return response.data 
+}
+
+module.exports = {
+    getStarships
+}
