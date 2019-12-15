@@ -14,4 +14,3 @@ getPeople('anakin')
     .catch((error) => {
         console.log('error', error)
     })
-    
