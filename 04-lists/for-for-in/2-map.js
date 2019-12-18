@@ -1,13 +1,13 @@
 const service = require('./service') 
 
-Array.prototype.meuMap = (function(callback){
+Array.prototype.meuMap = function(callback){
     const names = [] 
     for(indice = 0; indice < this.length; indice++){
         const name = callback(this[indice], indice)
         names.push(name) 
     }
     return names 
-})
+}
 
 async function main(){
     try{
