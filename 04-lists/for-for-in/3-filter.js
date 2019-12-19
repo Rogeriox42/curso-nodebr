@@ -1,15 +1,26 @@
 const { obterPessoas } = require('./service')
+const uuid = require('uuid/v1') 
+
+Array.prototype.meuFilter = (function(callback){
+    const list = [] 
+    for(item of this){
+        const res = callback(item) 
+        if(!res) continue; 
+        const newItem = {
+            id: uuid(), 
+            info: item 
+        }
+        list.push(newItem) 
+    }
+    return list 
+})
 
 async function main(){
 
     try{
         const {results} =  await obterPessoas('a') 
-        // const familiaSkywalker = results.filter(function(item){
-        //     const result = item.name.toLowerCase().indexOf('skywalker') !== -1
-        //     return result 
-        // })
-        const familiaSkywalker = results.filter( (item) =>  (item.name.toLowerCase().indexOf('skywalker') !== -1) )
-        const names = familiaSkywalker.map( (person) =>`${person.name} - ${person.birth_year}`)
+        const familia = results.meuFilter( item => item.name.toLowerCase().indexOf('skywalker')!==1)
+        const names = familia.map( (person) =>`${person.info.name} - ${person.info.birth_year} - ${person.id}`)
         console.log('names', names) 
     }catch(error){
         console.log('error', error) 
