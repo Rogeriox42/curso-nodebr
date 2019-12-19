@@ -4,10 +4,11 @@ async function main(){
 
     try{
         const {results} =  await obterPessoas('a') 
-        const familiaSkywalker = results.filter(function(item){
-            const result = item.name.toLowerCase().indexOf('skywalker') !== -1
-            return result 
-        })
+        // const familiaSkywalker = results.filter(function(item){
+        //     const result = item.name.toLowerCase().indexOf('skywalker') !== -1
+        //     return result 
+        // })
+        const familiaSkywalker = results.filter( (item) =>  (item.name.toLowerCase().indexOf('skywalker') !== -1) )
         const names = familiaSkywalker.map( (person) =>`${person.name} - ${person.birth_year}`)
         console.log('names', names) 
     }catch(error){
