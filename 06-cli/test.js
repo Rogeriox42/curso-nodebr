@@ -11,7 +11,7 @@ const DEFAULT_HEROI_CADASTRAR = {
 const DEFAULT_ITEM_ATUALIZAR = {
     nome: 'Lanterna Verde', 
     poder: 'Energia do Anel', 
-    id: 2
+    id: 3
 }
 
 describe('Suíte de testes de heróis', () => {
@@ -40,6 +40,7 @@ describe('Suíte de testes de heróis', () => {
     it('deve remover um herói', async () =>{
         const expected = true 
         const resultado = await database.remover(DEFAULT_HEROI_CADASTRAR.id) 
+        
         deepEqual(resultado, expected) 
     })
 
@@ -55,7 +56,8 @@ describe('Suíte de testes de heróis', () => {
         }
 
         await database.atualizar(DEFAULT_ITEM_ATUALIZAR.id, novoDado)
-        const resultado = await database.listar(DEFAULT_ITEM_ATUALIZAR.id)
+        const [resultado] = await database.listar(DEFAULT_ITEM_ATUALIZAR.id)
+        console.log('resultado', resultado)
         deepEqual(resultado, expected) 
     })
 

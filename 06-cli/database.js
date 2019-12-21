@@ -57,15 +57,12 @@ class Database {
 
         const atual = dados[indice] 
         const objetoAtualizar = {
-            ...dados, 
-            modificacoes
+            ...atual, 
+            ... modificacoes
         }
         dados.splice(indice, 1) 
 
         return await this.escreverArquivo([...dados, objetoAtualizar])
-        
-
-        return false 
     }
 
     async obterDadosArquivo() {
