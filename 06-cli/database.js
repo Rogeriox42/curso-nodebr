@@ -47,6 +47,27 @@ class Database {
         return await this.escreverArquivo(dados) 
     }
 
+    async atualizar(id, modificacoes){
+        const dados = await this.obterDadosArquivo() 
+        const indice = dados.findIndex( item => item.id === parseInt(id))
+
+        if(indice === -1){
+            throw new Error('Herói informado não existe')
+        }
+
+        const atual = dados[indice] 
+        const objetoAtualizar = {
+            ...dados, 
+            modificacoes
+        }
+        dados.splice(indice, 1) 
+
+        return await this.escreverArquivo([...dados, objetoAtualizar])
+        
+
+        return false 
+    }
+
     async obterDadosArquivo() {
         const arquivo = await readFileAsync(this.NOME_ARQUIVO, 'utf8')
         return JSON.parse(arquivo.toString())
@@ -56,6 +77,8 @@ class Database {
         await writeFileAsync(this.NOME_ARQUIVO, JSON.stringify(dados))
         return true
     }
+
+
 }
 
 module.exports = new Database()
