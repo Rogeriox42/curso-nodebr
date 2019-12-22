@@ -52,6 +52,7 @@ class Database {
     }
 
     async atualizar(id, modificacoes){
+        console.log('id', id, 'modificacoes', modificacoes)
         const dados = await this.obterDadosArquivo() 
         const indice = dados.findIndex( item => item.id === parseInt(id))
 

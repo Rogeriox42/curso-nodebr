@@ -2,7 +2,7 @@ class Heroi {
     constructor({ nome, poder, id }) {
         this.nome = nome
         this.poder = poder
-        this.id = id ? id : Date.now()
+        id ? this.id = id : false 
     }
 }
 
