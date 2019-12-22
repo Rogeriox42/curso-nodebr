@@ -1,5 +1,6 @@
 const { readFile, writeFile } = require('fs')
 const { promisify } = require('util')
+const uuid = require('uuid/v1') 
 
 const readFileAsync = promisify(readFile)
 const writeFileAsync = promisify(writeFile)
@@ -17,7 +18,9 @@ class Database {
 
     async cadastrarHeroi(heroi) {
         const dados = await this.obterDadosArquivo()
-        const id = heroi.id <= 2 ? heroi.id : Date.now()
+        // console.log('dados',dados,dados.length)
+        // const id = heroi.id <= 2 ? heroi.id : Date.now()
+        const id = heroi.id <= 2 ? heroi.id : dados.length+1
 
         const heroiComId = {
             id,
@@ -30,6 +33,7 @@ class Database {
         ]
 
         const resultado = await this.escreverArquivo(dadosFinal)
+        return resultado 
     }
 
     async remover(id){
