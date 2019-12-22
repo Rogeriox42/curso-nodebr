@@ -2,7 +2,7 @@ class Heroi {
     constructor({ nome, poder, id }) {
         this.nome = nome
         this.poder = poder
-        id ? this.id = id : false 
+        id ? this.id = parseInt(id) : false 
     }
 }
 

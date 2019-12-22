@@ -7,17 +7,17 @@ async function main(params) {
         .version('v1')
         .option('-n, --nome [value]', "Nome do herói")
         .option('-p, --poder [value]', "Poder do herói")
-        .option('-id, --id [value]', 'ID do herói') 
+        .option('-i, --id [value]', 'ID do herói') 
         .option('-c, --cadastrar', "Cadastrar o herói") 
         .option('-l, --listar', "Listar Heroís") 
-        .option('-a, --atualizar', 'Atualizar Herói') 
+        .option('-a, --atualizar [value]', 'Atualizar Herói') 
         .option('-r, --remover', 'Deletar herói') 
         .parse(process.argv)
 
         const heroi = new Heroi(Commander) 
     try {
         if(Commander.cadastrar){            
-            console.log('heroi', heroi)
+            // console.log('heroi', heroi)
             const resultado = await Database.cadastrarHeroi(heroi) 
             if(!resultado){
                 console.error('Erro ao cadastrar o herói') 
@@ -28,8 +28,8 @@ async function main(params) {
 
         if(Commander.listar){
             const dados = await Database.listar() 
-            const dadosMapeados = dados.map( item => console.log(`ID: ${item.id} | Nome: ${item.nome} | Poder: ${item.poder} `))
-            // console.log('Lista de Heróis: \n', dadosMapeados)
+            // dados = dados.map( item => `ID: ${item.id} | Nome: ${item.nome} | Poder: ${item.poder} `)
+            console.log('Lista de Heróis: \n', dados)
         }
 
         if(Commander.remover){
@@ -42,12 +42,17 @@ async function main(params) {
         }
 
         if(Commander.atualizar){
-            const resultado = await Database.atualizar(heroi.id, heroi)
+            const idAtualizar = parseInt(Commander.atualizar) 
+            const dado = JSON.stringify(heroi) 
+            const heroiAtualizar = JSON.parse(dado) 
+            
+            console.log('heroi', heroi) 
+            const resultado = await Database.atualizar(idAtualizar, heroiAtualizar)
             if(!resultado){
-                console.log('Erro ao atualizar o herói!')
-                return; 
+                console.log('erro ao atualizar o heroi') 
             }
-            console.log('Herói atualizado com sucesso!') 
+            console.log('heroi atualizado com sucesso') 
+
         }
 
 
