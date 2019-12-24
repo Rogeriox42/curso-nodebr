@@ -46,11 +46,18 @@ async function main() {
     })
 
     await Herois.sync()
+    // await Herois.create({
+    //     'nome': 'The Batman Who Laughs', 
+    //     'poder': 'Transform everyone into dark twisted versions' 
+    // })
 
-    const result = await Herois.findAll({ raw: true })
+    const result = await Herois.findAll({ 
+        raw: true, 
+        attributes: ['nome', 'poder']
+     })
     console.log('result', result)
 
-
+    
 
 
 }
