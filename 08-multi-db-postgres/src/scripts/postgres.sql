@@ -6,7 +6,19 @@ CREATE TABLE TB_HEROIS(
     PODER TEXT NOT NULL 
 ); 
 
+--create 
 INSERT INTO TB_HEROIS (NOME, PODER) VALUES
 ('Flash', 'Velocidade'), 
 ('Aquaman', 'Falar com Peixe'), 
 ('Batman', 'Dinheiro') 
+
+--read 
+SELECT * FROM TB_HEROIS 
+SELECT * FROM TB_HEROIS WHERE NOME = 'Batman'
+SELECT * FROM TB_HEROIS WHERE ID = '2'
+
+--update 
+UPDATE TB_HEROIS SET PODER = 'Nadar' WHERE NOME = 'Aquaman'
+UPDATE TB_HEROIS SET PODER = 'Alterar linha do tempo' WHERE NOME = 'Flash'
+
+--delete 
