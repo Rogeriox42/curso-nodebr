@@ -56,10 +56,6 @@ async function main() {
         attributes: ['nome', 'poder']
      })
     console.log('result', result)
-
-    
-
-
 }
 
 main() 
