@@ -24,26 +24,20 @@ describe('Postgres Strategy', function(){
     })
 
     it('Listar', async function(){
-        const result = await context.read(MOCK_HEROI_CADASTRAR.nome)
+        const result = await context.read({nome: MOCK_HEROI_ATUALIZAR.nome})
         delete result.id
         assert.deepEqual(result, MOCK_HEROI_CADASTRAR) 
     })
 
     it.only('Atualizar', async function(){
-        const newData = {nome: 'Batman', poder: 'Dinheiro'}
-        const item = await context.read(MOCK_HEROI_ATUALIZAR.nome) 
-        console.log('item', item) 
-        
-        expected = {
-            nome: item.nome, 
-            update: {... newData}
+        const item = await context.read({nome: MOCK_HEROI_ATUALIZAR.nome})
+        const novoItem = {
+            ... MOCK_HEROI_ATUALIZAR, 
+            nome: 'Mulher Maravilha' 
         }
 
-        console.log('expected', expected)
-
-        const result = await context.update(MOCK_HEROI_ATUALIZAR.nome, newData)
-        
-        assert.deepEqual(result, expected) 
+        const [result] = await context.update(item.id, novoItem)
+        assert.deepEqual(result, 1) 
     })
 
     // it('Deletar', async function(){
