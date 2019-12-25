@@ -28,6 +28,22 @@ class Postgres extends ICrud {
         return result 
     }
 
+    async update(nome, item){
+        const dados = await this.read(nome)
+        await this._herois.update( item , {where: {nome: nome}})
+
+        const newItem = await this.read(item.nome) 
+        delete newItem.id 
+        const response = {
+            nome, 
+            update: {
+                ... newItem 
+            }
+        }
+        
+        return response
+    }
+
     async isConnected() {
         try {
             await this._driver.authenticate()
