@@ -28,6 +28,10 @@ class MongoDB extends ICrud {
         return this._herois.updateOne({_id: id}, {$set: item})
     }
 
+    delete(id){
+        return this._herois.deleteOne({_id: id})
+    }
+
     async isConnected() {
         const state = STATUS[this._driver.readyState]
 

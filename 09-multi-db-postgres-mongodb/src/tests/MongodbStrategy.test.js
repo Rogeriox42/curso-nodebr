@@ -49,6 +49,11 @@ describe('Mongodb Suite de Tests', function(){
         assert.deepEqual(result.nModified, 1) 
     })
 
+    it('Remover', async () =>{
+        const result = await context.delete(MOCK_HEROI_ID) 
+        assert.deepEqual(result.n, 1) 
+    })
+
     it('Contar', async () =>{
         const result = await context.count() 
         const typeResult = typeof result 
