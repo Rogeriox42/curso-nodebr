@@ -7,8 +7,9 @@ const STATUS = {
     2: 'Conectando',
     3: 'Disconectando'
 }
-
-const URI = 'mongodb://localhost:27017/herois'
+  
+// const URI = 'mongodb://localhost:27017/herois'
+const URI = "mongodb://rogeriorodrigues:minhasenhasecreta@localhost:27017/herois"
 class MongoDB extends ICrud {
     constructor() {
         super()

@@ -8,8 +8,10 @@ const STATUS = {
     3: 'Disconectando'
 }
 
+// const URI = 'mongodb://localhost:27017/herois'
+const URI = "mongodb://rogeriorodrigues:minhasenhasecreta@localhost:27017/herois"
 class MongoDB extends ICrud {
-    constructor() {
+    constructor() {   
         super()
         this._herois = null
         this._driver = null
@@ -43,7 +45,7 @@ class MongoDB extends ICrud {
     }
 
     async connect() {
-        await Mongoose.connect('mongodb://localhost:27017/herois',
+        await Mongoose.connect(URI,
         // await Mongoose.connect('mongodb://rogeriorodrigues:minhasenhasecreta@localhost:27017/herois',
             { useNewUrlParser: true, useUnifiedTopology: true }, async (error) => {
                 if (error) {
