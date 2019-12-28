@@ -5,12 +5,22 @@ const MOCK_HEROI_CADASTRAR = {
     nome: 'Mulher Maravilha', 
     poder: 'Laço' 
 }
+
+const MOCK_HEROI_ATUALIZAR = {
+    nome: `Patolino-${Date.now()}`, 
+    poder: 'Velocidade' 
+}
+
+let MOCK_HEROI_ID = ''
+
 const context = new Context(new Mongodb()) 
 
 describe('Mongodb Suite de Tests', function(){
     this.beforeAll( async function(){
-        this.timeout(5000)
+        this.timeout(5000)        
         await context.connect() 
+        const result = await context.create(MOCK_HEROI_ATUALIZAR) 
+        MOCK_HEROI_ID = result._id 
     })
     
     it('Verificar conexão', async () =>{
@@ -29,6 +39,14 @@ describe('Mongodb Suite de Tests', function(){
         const result = {nome, poder}
         // console.log('result', result)
         assert.deepEqual(result, MOCK_HEROI_CADASTRAR) 
+    })
+
+    it('Atualizar', async () =>{
+        const result = await context.update(MOCK_HEROI_ID, {
+            nome: 'Pernalonga' 
+        })
+
+        assert.deepEqual(result.nModified, 1) 
     })
 
     it('Contar', async () =>{

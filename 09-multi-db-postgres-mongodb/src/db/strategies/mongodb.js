@@ -24,6 +24,10 @@ class MongoDB extends ICrud {
         return this._herois.find(item).skip(skip).limit(limit)
     }
 
+    update(id, item){
+        return this._herois.updateOne({_id: id}, {$set: item})
+    }
+
     async isConnected() {
         const state = STATUS[this._driver.readyState]
 
@@ -36,7 +40,7 @@ class MongoDB extends ICrud {
 
     async connect() {
         await Mongoose.connect('mongodb://localhost:27017/herois',
-        // await Mongoose.connect('mongodb://rogeriorodrigues:minhasenhasecreta@mongodb:27017/herois',
+        // await Mongoose.connect('mongodb://rogeriorodrigues:minhasenhasecreta@localhost:27017/herois',
             { useNewUrlParser: true, useUnifiedTopology: true }, async (error) => {
                 if (error) {
                     console.log('Falha na Conexão', error)
