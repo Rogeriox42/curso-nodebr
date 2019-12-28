@@ -13,18 +13,15 @@ class MongoDB extends ICrud {
         super()
         this._herois = null
         this._driver = null
-        // this.connect()
-        // this.defineModel()
+        this.connect()
     }
 
-    async create(item) {
-        console.log('item', item)
-        try {
-            const result = await this._herois.create(item)
-            return result
-        } catch (error) {
-            console.error('error no create', error.stack)
-        }
+    create(item) {
+        return this._herois.create(item) 
+    }
+
+    read(item, skip = 0, limit = 10){
+        return this._herois.find(item).skip(skip).limit(limit)
     }
 
     async isConnected() {
@@ -33,13 +30,13 @@ class MongoDB extends ICrud {
 
         if (state === 'Conectado') return state
         if (state === 'Conectando')
-            // return new Promise((resolve, reject) => setTimeout(() => { resolve(state) }, 1000))
             new Promise(resolve => setTimeout(resolve, 1000))
         return STATUS[this._driver.readyState]
     }
 
     async connect() {
         await Mongoose.connect('mongodb://localhost:27017/herois',
+        // await Mongoose.connect('mongodb://rogeriorodrigues:minhasenhasecreta@mongodb:27017/herois',
             { useNewUrlParser: true, useUnifiedTopology: true }, async (error) => {
                 if (error) {
                     console.log('Falha na Conexão', error)
@@ -52,7 +49,10 @@ class MongoDB extends ICrud {
                 this.defineModel()
             }
         )
+    }
 
+     count(){
+        return this._herois.countDocuments() 
     }
 
     defineModel() {
