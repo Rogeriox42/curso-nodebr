@@ -20,7 +20,7 @@ class ICrud {
     isConnected(){
         throw new NotImplementedException() 
     }
-    connect(){
+    connect(connection, schema){
         throw new NotImplementedException() 
     }
 }
