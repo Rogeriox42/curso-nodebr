@@ -24,7 +24,7 @@ class Postgres extends ICrud {
     async read(query = {}){
         const [dataValues] = await this._herois.findAll({where: query, rawQuery: true})
         const result = dataValues.dataValues
-        console.log('dataValues', result)
+
         return result 
     }
 
@@ -52,7 +52,8 @@ class Postgres extends ICrud {
                 host: 'localhost',
                 dialect: 'postgres',
                 quoteIdentifiers: false,
-                operatorAliases: false
+                operatorAliases: false, 
+                logging: false 
             }
         )
         await this._defineModel() 

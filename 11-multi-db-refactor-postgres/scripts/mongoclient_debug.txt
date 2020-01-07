@@ -1,0 +1,13 @@
+docker run -d -p 3000:3000 mongoclient/mongoclient
+
+
+
+docker run -d -p 3000:3000 -v <path>:/data/db mongoclient/mongoclient
+docker run -d -p 3000:3050 -v C:/Users/Rogerio/Desktop/test/data/db mongoclient/mongoclient
+
+docker run --name mongoclient -p 3000:3000 -e MONGO_URL=mongodb://ADMIN:senhaadmin@mongo:27017/heroes --link mongodb:mongodb mongoclient/mongoclient
+
+docker run --name nosqlclient -d -p 3000:3000 -v ~/work/volumes/nosqlclient:/data/db mongoclient/mongoclient
+
+THE ONE THAT WORKS
+docker run --name mongoclient -d -p 3000:3000 -e MONGO_URL=mongodb://ADMIN:senhaadmin@mongodb:27017/admin --link mongodb:mongodb mongoclient/mongoclient
