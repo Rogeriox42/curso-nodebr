@@ -19,20 +19,23 @@ class HeroRoutes extends BaseRoute {
                         query.nome = nome
                     }
 
-                    console.log('limit', limit) 
-
-                    if (isNaN(skip)) {
-                        throw new Error('ERRO NO SKIP, DEVE SER UM NUMERO')
+                    if (isNaN(skip)){
+                        throw Error('O skip é inválido') 
                     }
-                    if (isNaN(limit)) {
-                        throw new Error('ERRO NO LIMITE, DEVE SER UM NUMERO')
+
+                    if(isNaN(limit)){   
+                        throw Error('O limit  é inválido') 
                     }
 
                     return this.db.read(query, parseInt(skip), parseInt(limit))
                 }
                 catch (error) {
                     console.log('DEU RUIM NA QUERY', error)
-                    return 'Erro na String de Query'
+                    
+                    return {
+                        mensagem: 'Erro no servidor', 
+                        statusCode: 500
+                    }
                 }
             }
         }
