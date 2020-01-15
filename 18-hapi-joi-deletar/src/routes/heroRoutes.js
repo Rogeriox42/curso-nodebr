@@ -1,5 +1,6 @@
 const BaseRoute = require('./base/baseRoute')
 const Joi = require('joi')
+const Boom = require('boom') 
 
 class HeroRoutes extends BaseRoute {
     constructor(db) {
@@ -42,10 +43,7 @@ class HeroRoutes extends BaseRoute {
                 catch (error) {
                     console.log('DEU RUIM NA QUERY', error)
 
-                    return {
-                        mensagem: 'Erro no servidor',
-                        statusCode: 500
-                    }
+                    return Boom.internal()
                 }
             }
         }
@@ -76,7 +74,7 @@ class HeroRoutes extends BaseRoute {
                     }
                 } catch (erro) {
                     console.log('DEU RUIM', erro)
-                    return 'Erro interno'
+                    return Boom.internal()
                 }
             }
         }
@@ -110,33 +108,54 @@ class HeroRoutes extends BaseRoute {
                     const dados = JSON.parse(dadosString)
 
                     const result = await this.db.update(id, dados)
-                    // console.log('result', result)
 
-                    if (result.nModified !== 1) {
-                        return {
-                            message: 'Erro ao atualizar o eroi'
-                        }
+                    if(result.nModified !== 1){
+                        return Boom.preconditionFailed('ID Não existente')
                     }
 
-                    return {
-                        message: 'Heroi atualizado com sucesso!'
-                    }
-
-                    return {
-                        message: 'Heroi atualizado com sucesso!'
+                    return{
+                        message:'Heroi atualizado com sucesso!'
                     }
 
                 } catch (erro) {
                     console.log('erro ao atualizar')
-                    return {
-                        message: 'Erro interno do servidor'
-                    }
+                    return Boom.internal()
                 }
             }
         }
     }
 
-    
+    delete() {
+        return {
+            method: 'DELETE',
+            path: '/herois/{id}',
+            config: {
+                validate: {
+                    failAction: (request, header, erro) => {
+                        throw erro
+                    },
+                    params: {
+                        id: Joi.string().required().max(100)
+                    }
+                }
+            },
+            handler: async (request, header) => {
+                try {
+                    const {id} = request.params 
+                    const result = await this.db.delete(id)
+                    if(result.n !== 1){
+                        return Boom.preconditionFailed('ID Não existente')
+                    }
+                    return {
+                        message: 'Heroi excluido com sucesso!'
+                    }   
+                } catch (erro) {
+                    console.log('DEU RUIM PARA EXCLUIR BICHO')
+                    return Boom.internal() 
+                }
+            }
+        }
+    }
 }
 
 module.exports = HeroRoutes 
