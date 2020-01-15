@@ -9,8 +9,12 @@ const STATUS = {
     3: 'Disconectando'
 }
 
+// Máquina Local 
 const URI = 'mongodb://localhost:27017/herois'
+
+//Imagem Docker 
 // const URI = "mongodb://rogeriorodrigues:minhasenhasecreta@localhost:27017/herois"
+
 class MongoDB extends ICrud {
     constructor(connection, schema) {
         super()
