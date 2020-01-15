@@ -1,6 +1,6 @@
 const BaseRoute = require('./base/baseRoute')
 const Joi = require('joi')
-const Boom = require('boom')
+const Boom = require('boom') 
 
 class HeroRoutes extends BaseRoute {
     constructor(db) {
@@ -12,10 +12,10 @@ class HeroRoutes extends BaseRoute {
         return {
             path: '/herois',
             method: 'GET',
-            options: {
-            },
             config: {
                 tags: ['api'],
+                description: 'Deve listar herois', 
+                notes: 'Pode paginar resultados e filtrar por nome',
                 validate: {
                     //     // headers --> Cabeçalhos 
                     //     // body --> payload 
@@ -57,6 +57,9 @@ class HeroRoutes extends BaseRoute {
             path: '/herois',
             method: 'POST',
             config: {
+                tags: ['api'],
+                description: 'Deve cadastrar herois', 
+                notes: 'Deve cadastrar heroi por nome e poder',
                 validate: {
                     failAction: async (request, header, erro) => {
                         return erro
@@ -88,6 +91,9 @@ class HeroRoutes extends BaseRoute {
             method: 'PATCH',
             path: `/herois/{id}`,
             config: {
+                tags: ['api'],
+                description: 'Deve atualizar herois', 
+                notes: 'Atualiza o heroi usando ID, nome e poder',
                 validate: {
                     failAction: async (request, header, erro) => {
                         return erro
@@ -112,12 +118,12 @@ class HeroRoutes extends BaseRoute {
 
                     const result = await this.db.update(id, dados)
 
-                    if (result.nModified !== 1) {
+                    if(result.nModified !== 1){
                         return Boom.preconditionFailed('ID Não existente')
                     }
 
-                    return {
-                        message: 'Heroi atualizado com sucesso!'
+                    return{
+                        message:'Heroi atualizado com sucesso!'
                     }
 
                 } catch (erro) {
@@ -133,6 +139,9 @@ class HeroRoutes extends BaseRoute {
             method: 'DELETE',
             path: '/herois/{id}',
             config: {
+                tags: ['api'],
+                description: 'Deve excluir um heroi', 
+                notes: 'Exclui um heroi com base em seu ID',
                 validate: {
                     failAction: (request, header, erro) => {
                         throw erro
@@ -144,16 +153,16 @@ class HeroRoutes extends BaseRoute {
             },
             handler: async (request, header) => {
                 try {
-                    const { id } = request.params
+                    const {id} = request.params 
                     const result = await this.db.delete(id)
-                    if (result.n !== 1) {
+                    if(result.n !== 1){
                         return Boom.preconditionFailed('ID Não existente')
                     }
                     return {
                         message: 'Heroi excluido com sucesso!'
-                    }
+                    }   
                 } catch (erro) {
-                    return Boom.internal()
+                    return Boom.internal() 
                 }
             }
         }
