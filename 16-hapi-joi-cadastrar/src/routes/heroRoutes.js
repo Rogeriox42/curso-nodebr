@@ -71,14 +71,67 @@ class HeroRoutes extends BaseRoute {
                     const { nome, poder } = request.payload
                     const result = await this.db.create({ nome, poder })
                     return {
-                        message: 'Heroi cadastrado com sucesso!', 
+                        message: 'Heroi cadastrado com sucesso!',
                         _id: result._id
                     }
                 } catch (erro) {
                     console.log('DEU RUIM', erro)
                     return 'Erro interno'
                 }
-                return 'Hey there, nice try'
+            }
+        }
+    }
+
+    update() {
+        return {
+            method: 'PATCH',
+            path: `/herois/{id}`,
+            config: {
+                validate: {
+                    failAction: async (request, header, erro) => {
+                        return erro
+                    },
+                    params: {
+                        id: Joi.string().required()
+                    },
+                    payload: {
+                        nome: Joi.string().min(3).max(100),
+                        poder: Joi.string().min(3).max(100)
+                    }
+                }
+            },
+            handler: async (request) => {
+                try {
+                    const { id } = request.params
+
+                    const { payload } = request
+
+                    const dadosString = JSON.stringify(payload)
+                    const dados = JSON.parse(dadosString)
+
+                    const result = await this.db.update(id, dados)
+                    // console.log('result', result)
+
+                    if(result.nModified !== 1){
+                        return{
+                            message: 'Erro ao atualizar o eroi'
+                        }
+                    }
+
+                    return{
+                        message:'Heroi atualizado com sucesso!'
+                    }
+
+                    return {
+                        message: 'Heroi atualizado com sucesso!'
+                    }
+
+                } catch (erro) {
+                    console.log('erro ao atualizar')
+                    return {
+                        message: 'Erro interno do servidor'
+                    }
+                }
             }
         }
     }
