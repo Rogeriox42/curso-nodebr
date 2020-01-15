@@ -7,7 +7,7 @@ const MOCK_HEROI_CADASTRAR = {
 }
 
 let app = {}
-describe('Suíte de testes da API Heroes', function () {
+describe.only('Suíte de testes da API Heroes', function () {
     this.beforeAll(async () => {
         app = await api
     })
@@ -85,10 +85,16 @@ describe('Suíte de testes da API Heroes', function () {
     it('Cadastrar heroi POST - ', async () => {
         const result = await app.inject({
             method: 'POST',
-            url: `/herois`
+            url: `/herois`, 
+            payload: MOCK_HEROI_CADASTRAR
         })
 
-
+        const statusCode = result.statusCode 
+        const  {message, _id} = JSON.parse(result.payload)
+        
+        assert.deepEqual(statusCode, 200)
+        assert.deepEqual(message, 'Heroi cadastrado com sucesso!')
+        assert.notStrictEqual(_id, undefined)
     })
 
 })

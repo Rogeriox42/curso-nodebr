@@ -35,7 +35,7 @@ class HeroRoutes extends BaseRoute {
                     //     nome: { $regex: `.*${nome}*.` }
                     // } : {}
 
-                    let query = nome ? {nome} : {} 
+                    let query = nome ? { nome } : {}
 
                     return this.db.read(query, parseInt(skip), parseInt(limit))
                 }
@@ -47,6 +47,38 @@ class HeroRoutes extends BaseRoute {
                         statusCode: 500
                     }
                 }
+            }
+        }
+    }
+
+    create() {
+        return {
+            path: '/herois',
+            method: 'POST',
+            config: {
+                validate: {
+                    failAction: async (request, header, erro) => {
+                        return erro
+                    },
+                    payload: {
+                        nome: Joi.string().required().min(3).max(100),
+                        poder: Joi.string().required().min(3).max(100)
+                    }
+                },
+            },
+            handler: async (request) => {
+                try {
+                    const { nome, poder } = request.payload
+                    const result = await this.db.create({ nome, poder })
+                    return {
+                        message: 'Heroi cadastrado com sucesso!', 
+                        _id: result._id
+                    }
+                } catch (erro) {
+                    console.log('DEU RUIM', erro)
+                    return 'Erro interno'
+                }
+                return 'Hey there, nice try'
             }
         }
     }
