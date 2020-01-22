@@ -62,7 +62,7 @@ async function main() {
 
     app.auth.default('jwt') 
 
-    console.log('mapRoutes', mapRoutes(new HeroRoute(context), HeroRoute.methods()))
+    // console.log('mapRoutes', mapRoutes(new HeroRoute(context), HeroRoute.methods()))
     app.route([
         ... mapRoutes(new HeroRoute(context), HeroRoute.methods()),
         ... mapRoutes(new AuthRoute(JWT_SECRET), AuthRoute.methods()),

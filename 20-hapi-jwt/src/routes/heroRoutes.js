@@ -3,7 +3,7 @@ const Joi = require('joi')
 const Boom = require('boom') 
 
 const headers = Joi.object({
-    Authorization: Joi.string().required()
+    authorization: Joi.string().required()
 }).unknown()
 
 class HeroRoutes extends BaseRoute {
@@ -17,7 +17,6 @@ class HeroRoutes extends BaseRoute {
             path: '/herois',
             method: 'GET',
             config: {
-                
                 tags: ['api'],
                 description: 'Deve listar herois', 
                 notes: 'Pode paginar resultados e filtrar por nome',
@@ -68,14 +67,14 @@ class HeroRoutes extends BaseRoute {
                 description: 'Deve cadastrar herois', 
                 notes: 'Deve cadastrar heroi por nome e poder',
                 validate: {
-                    headers, 
                     failAction: async (request, header, erro) => {
                         return erro
                     },
                     payload: {
                         nome: Joi.string().required().min(3).max(100),
                         poder: Joi.string().required().min(3).max(100)
-                    }
+                    },
+                    headers
                 },
             },
             handler: async (request) => {
@@ -103,7 +102,6 @@ class HeroRoutes extends BaseRoute {
                 description: 'Deve atualizar herois', 
                 notes: 'Atualiza o heroi usando ID, nome e poder',
                 validate: {
-                    headers, 
                     failAction: async (request, header, erro) => {
                         return erro
                     },
@@ -113,7 +111,8 @@ class HeroRoutes extends BaseRoute {
                     payload: {
                         nome: Joi.string().min(3).max(100),
                         poder: Joi.string().min(3).max(100)
-                    }
+                    },
+                    headers
                 }
             },
             handler: async (request) => {

@@ -37,8 +37,8 @@ class AuthRoutes extends BaseRoute {
             },
             handler: async (request, header) => {
                 const { username, password } = request.payload
-                console.log('username', username) 
-                console.log('password', password) 
+                // console.log('username', username) 
+                // console.log('password', password) 
 
                 if (username.toLowerCase() !== USER.username.toLowerCase() || password !== USER.password)
                     return Boom.unauthorized()
