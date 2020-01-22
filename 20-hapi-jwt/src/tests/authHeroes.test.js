@@ -1,8 +1,9 @@
 const assert = require('assert')
 const api = require('../api')
 let app = {}
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG4gSm9uZXMiLCJpZCI6MSwiaWF0IjoxNTc5NzIwNDE1fQ.OaJ_goyJaBB-htnr1NJScK-kJUy4meShs7hN6bpM9m4MiLCJpZCI6MSwiaWF0IjoxNTc5NzIwNDE1fQ.OaJ_goyJaBB-htnr1NJScK-kJUy4meShs7hN6bpM9m4'
 
-describe.only('Auth test suite', function () {
+describe('Auth test suite', function () {
     this.beforeAll(async () => {
         app = await api
     })

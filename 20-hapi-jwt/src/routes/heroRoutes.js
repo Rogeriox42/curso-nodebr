@@ -2,6 +2,10 @@ const BaseRoute = require('./base/baseRoute')
 const Joi = require('joi')
 const Boom = require('boom') 
 
+const headers = Joi.object({
+    Authorization: Joi.string().required()
+}).unknown()
+
 class HeroRoutes extends BaseRoute {
     constructor(db) {
         super()
@@ -13,6 +17,7 @@ class HeroRoutes extends BaseRoute {
             path: '/herois',
             method: 'GET',
             config: {
+                
                 tags: ['api'],
                 description: 'Deve listar herois', 
                 notes: 'Pode paginar resultados e filtrar por nome',
@@ -21,6 +26,7 @@ class HeroRoutes extends BaseRoute {
                     //     // body --> payload 
                     //     // params --> URL:id 
                     //     // query --> skip, limit 
+                    headers, 
                     failAction: (request, headers, erro) => {
                         throw erro;
                     },
@@ -28,7 +34,8 @@ class HeroRoutes extends BaseRoute {
                         skip: Joi.number().default(0),
                         limit: Joi.number().integer().max(10).default(10),
                         nome: Joi.string().min(3).max(100)
-                    }
+                    },
+                    headers
                 },
             },
             handler: (request, headers) => {
@@ -61,6 +68,7 @@ class HeroRoutes extends BaseRoute {
                 description: 'Deve cadastrar herois', 
                 notes: 'Deve cadastrar heroi por nome e poder',
                 validate: {
+                    headers, 
                     failAction: async (request, header, erro) => {
                         return erro
                     },
@@ -95,6 +103,7 @@ class HeroRoutes extends BaseRoute {
                 description: 'Deve atualizar herois', 
                 notes: 'Atualiza o heroi usando ID, nome e poder',
                 validate: {
+                    headers, 
                     failAction: async (request, header, erro) => {
                         return erro
                     },
@@ -148,7 +157,8 @@ class HeroRoutes extends BaseRoute {
                     },
                     params: {
                         id: Joi.string().required().max(100)
-                    }
+                    }, 
+                    headers
                 }
             },
             handler: async (request, header) => {

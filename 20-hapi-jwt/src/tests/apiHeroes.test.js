@@ -1,6 +1,8 @@
 const assert = require('assert')
 const api = require('../api')
 
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG4gSm9uZXMiLCJpZCI6MSwiaWF0IjoxNTc5NzIwNDE1fQ.OaJ_goyJaBB-htnr1NJScK-kJUy4meShs7hN6bpM9m4MiLCJpZCI6MSwiaWF0IjoxNTc5NzIwNDE1fQ.OaJ_goyJaBB-htnr1NJScK-kJUy4meShs7hN6bpM9m4'
+
 const MOCK_HEROI_CADASTRAR = {
     nome: 'Chapolim Colorado',
     poder: 'Marreta Biônica'
@@ -9,6 +11,10 @@ const MOCK_HEROI_CADASTRAR = {
 const MOCK_HEROI_INICIAL = {
     nome: 'Gavião Negro',
     poder: 'Flechas'
+}
+
+const headers = {
+    Authorization: TOKEN
 }
 
 let MOCK_ID
@@ -20,6 +26,7 @@ describe('Suíte de testes da API Heroes', function () {
         const result = await app.inject({
             method: 'POST',
             url: '/herois',
+            headers, 
             payload: MOCK_HEROI_INICIAL
             // payload: JSON.stringify(MOCK_HEROI_INICIAL)
         })
@@ -30,7 +37,8 @@ describe('Suíte de testes da API Heroes', function () {
     it('Listar /herois', async () => {
         const result = await app.inject({
             method: 'GET',
-            url: '/herois?skip=0&limit=10'
+            url: '/herois?skip=0&limit=10', 
+            headers 
         })
         const dados = JSON.parse(result.payload)
         const statusCode = result.statusCode
@@ -44,7 +52,8 @@ describe('Suíte de testes da API Heroes', function () {
 
         const result = await app.inject({
             method: 'GET',
-            url: `/herois?skip=0&limit=${TAMANHO_LIMITE}`
+            url: `/herois?skip=0&limit=${TAMANHO_LIMITE}`,
+            headers 
         })
 
         const dados = JSON.parse(result.payload)
@@ -62,7 +71,8 @@ describe('Suíte de testes da API Heroes', function () {
 
         const result = await app.inject({
             method: 'GET',
-            url: `/herois?skip=0&limit=${TAMANHO_LIMITE}&nome=${nome}`
+            url: `/herois?skip=0&limit=${TAMANHO_LIMITE}&nome=${nome}`,
+            headers, 
         })
 
         const dados = JSON.parse(result.payload)
