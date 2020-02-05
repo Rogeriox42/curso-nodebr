@@ -44,8 +44,8 @@ class Postgres extends ICrud {
     }
 
     static async connect() {
-        // const connection = new Sequelize('heroes','rogeriorodrigues','senhasupersecreta',
-        const connection = new Sequelize('herois','postgres','masterpwd',
+        const connection = new Sequelize('heroes','rogeriorodrigues','senhasupersecreta',
+        // const connection = new Sequelize('herois','postgres','masterpwd',
             {
                 host: 'localhost',
                 dialect: 'postgres',
